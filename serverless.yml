@@ -1,0 +1,48 @@
+service: chem-webtools-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: us-east-1
+  # httpApi:
+  #   cors:
+  #     allowOrigins:
+  #       - http://localhost:3000
+  #       - https://axykbyvmi9.execute-api.us-east-1.amazonaws.com/api-docs/swagger
+  #     allowHeaders: "*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "*"
+
+functions:
+  TA_Application:
+    handler: index.handler
+    timeout: 10 #seconds
+    memorySize: 128 #mb
+    events:
+      - httpApi: "*"
+      # - httpApi: 'GET /'
+      # - httpApi: 'GET /health'
+      # - httpApi: 'GET /api-docs'
+      # - httpApi: 'GET /api/ta_application'
+      # - httpApi: 'POST /api/ta_application'
+      # - httpApi: 'PUT /api/ta_application/{id}'
+      # - httpApi: 'DELETE /api/ta_application/{id}'4
+    # environment:
+    #   DEBUG: "*"
+
+# resources:
+#   Resources:
+#     myTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: TAApplicants
+
+plugins:
+  - serverless-offline

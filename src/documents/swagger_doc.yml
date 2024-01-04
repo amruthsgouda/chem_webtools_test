@@ -1,0 +1,395 @@
+openapi: 3.0.3
+info:
+  title: Chem Webtools API's
+  version: 1.0.0
+  description: API Documentation for ChemWebtools
+
+tags:
+  - name: TA Applications
+    description: All APIs of TA Applications
+  - name: Users
+
+servers:
+  - url: http://localhost:3000/api
+  - url: https://e1fdo3aa6i.execute-api.us-east-1.amazonaws.com /api
+
+paths:
+  /ta_application:
+    get:
+      tags:
+        - TA Applications
+      summary: Returns All TA Applications
+      description: Gets all TA Applications in an array of objects.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TA Application"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bad request"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+    post:
+      tags:
+        - TA Applications
+      summary: Returns Created TA Application
+      description: Creates a TA Application
+      requestBody:
+        description: Create a new TA Application
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TA Application"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TA Application"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Application Id already exists.
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /ta_application/{applicationId}:
+    get:
+      tags:
+        - TA Applications
+      summary: Returns TA Application by its Application ID
+      description: Returns an object of TA Application by its Application ID
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of the application to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TA Application"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Requested resource not found.
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+    put:
+      tags:
+        - TA Applications
+      summary: Updates a TA Application
+      description: Returns Updated TA Application
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of the application to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new TA Application
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TA Application"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TA Application"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Requested resource not found.
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+    delete:
+      tags:
+        - TA Applications
+      summary: Delete a TA Application
+      description: Delete a TA Application
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of the application to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                    example: Resource deleted successfully!
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Requested resource not found.
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+components:
+  schemas:
+    TA Application:
+      type: object
+      properties:
+        Phone:
+          type: string
+          example: 88******16
+        TAApplicationId:
+          type: integer
+          format: int64
+          example: 198772
+        Major:
+          type: string
+          example: Chemistry
+        NotPreferredCourses:
+          type: array
+          items:
+            type: string
+          example:
+            - Bio Chemistry
+            - Organic Chemistry
+            - Analytical Chemistry
+        AppointmentReqested:
+          type: string
+          example: fullTime
+          enum:
+            - fullTime
+            - partTime
+        PreferredCourses:
+          type: array
+          items:
+            type: string
+          example:
+            - Inorganic Chemistry
+            - Physical Chemistry
+        Status:
+          type: string
+          example: Pending
+          enum:
+            - Pending
+            - Approved
+        AreaOfStudy:
+          type: string
+          example: Inorganic Chemistry
+        Email:
+          type: string
+          example: test@asu.edu
+        AppDate:
+          type: string
+          format: date-time
+          example: "2023-12-29T07:14:03.363Z"
+        TAComments:
+          type: string
+          example: Lorem Ipsum
+        ReferenceName:
+          type: string
+          example: Tony Stark
+        CoursesTaughtPreviously:
+          type: array
+          items:
+            type: string
+          example:
+            - Atoms Molecules and Photons
+            - General Chemistry
+            - Chemical Bindings
+            - Chemical Kinetics
+            - Supramolecular Chemistry
+        ClassLevel:
+          type: string
+          example: Graduate
+          enum:
+            - Undergraduate
+            - Graduate
+        FirstName:
+          type: string
+          example: John
+        CoursesTaughtLastSem:
+          type: array
+          items:
+            type: string
+          example:
+            - Supramolecular Chemistry
+            - Chemical Kinetics
+        LastName:
+          type: string
+          example: Doe
+        PreferredFaculties:
+          type: array
+          items:
+            type: string
+          example:
+            - Curie
+            - Jennifer A. Doudna
+            - Emmanuelle Charpentier
+        Schedule:
+          type: array
+          items:
+            type: object
+            properties:
+              weekday:
+                type: string
+                example: MWF
+                enum:
+                  - MWF
+                  - TTh
+                  - Mon
+                  - Tue
+                  - Wed
+                  - Thu
+                  - Fri
+              courseName:
+                type: string
+                example: Inorganic Chemistry
+              startTime:
+                type: string
+                example: 24h
+              endTime:
+                type: string
+                example: 24h
+      xml:
+        name: order
